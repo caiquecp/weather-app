@@ -1,3 +1,5 @@
+'use strict'
+
 console.log('Starting app');
 
 function msleep(n) {
@@ -13,7 +15,6 @@ sleep(5);
 
 // the setTimeout callback will only be executed after the sleep 
 // of 5s seconds even the time set being 2s because the callback 
-// stack is only executed (the callback go to the call stack) 
-// when the call stack is empty; weird
+// stack is only executed when the call stack is empty; weird
 
 console.log('Finishing up');
