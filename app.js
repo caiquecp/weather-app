@@ -15,12 +15,20 @@ function getFirstLocation(address, callback) {
         if (error)
             throw error
 
-        console.log(JSON.stringify(body, undefined, 2))
+        if (body.results && 
+            body.results.length > 0 && 
+            body.results[0].locations && 
+            body.results[0].locations.length > 0) {
+            callback(body.results[0].locations[0])
+        }
     })
 }
 
 const address = '1301 lombard street philadelphia'
 
 getFirstLocation(address, function (location) {
-    
+    //console.log(JSON.stringify(location, undefined, 2))
+    console.log(`Address: ${location.street}`)
+    console.log(`Latitude: ${location.latLng.lat}`)
+    console.log(`Longitute: ${location.latLng.lng}`)
 })
