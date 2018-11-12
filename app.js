@@ -1,7 +1,7 @@
 'use strict'
 
 const yargs = require ('yargs')
-const weatherFetch = require('./weather-fetch.js')
+const geocode = require('./geocode/geocode.js')
 
 const argv = yargs
     .option({
@@ -16,15 +16,12 @@ const argv = yargs
     .alias('help', 'h')
     .argv;
 
-weatherFetch.getFirstLocation(
-    argv.address, 
-    function (error) {
+geocode.getGeocodeAddress(argv.address, function (error, result) {
+    if (error) {
         console.error(error)
-    },
-    function (location) {
-        console.log(`Address: ${location.street}`)
-        console.log(`Latitude: ${location.latLng.lat}`)
-        console.log(`Longitute: ${location.latLng.lng}`)
-    }, function () {
-        console.log('Address not found')
-    })
+    } else {
+        console.log(`Address: ${result.address}`)
+        console.log(`Latitude: ${result.latitude}`)
+        console.log(`Longitute: ${result.longitude}`)
+    }
+})
