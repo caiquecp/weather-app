@@ -7,6 +7,7 @@ const api = 'http://www.mapquestapi.com/geocoding/v1'
 
 function getGeocodeAddress(address, callback) {
     const encodedAddress = encodeURIComponent(address)
+    
     const requestSetup = {
         url: `${api}/address?key=${keys.MAPQUEST_KEY}&location=${encodedAddress}&maxResults=1`,
         json: true
