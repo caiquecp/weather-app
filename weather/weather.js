@@ -5,12 +5,12 @@ const request = require('request')
 
 const api = 'https://api.darksky.net'
 
-function getWeather(latitude, longitude, callback) {
-    const encodedLatitude = encodeURIComponent(latitude)
-    const encodedLongitude = encodeURIComponent(longitude)
+function getWeather(lat, lng, callback) {
+    const encodedLat = encodeURIComponent(lat)
+    const encodedLng = encodeURIComponent(lng)
 
     const requestSetup = {
-        url: `${api}/forecast/${keys.DARK_SKY_KEY}/${encodedLatitude},${encodedLongitude}?units=si`,
+        url: `${api}/forecast/${keys.DARK_SKY_KEY}/${encodedLat},${encodedLng}?units=si`,
         json: true
     }
 
@@ -22,7 +22,10 @@ function getWeather(latitude, longitude, callback) {
         } else if (
             body &&
             body.currently) {
-            callback(undefined, body.currently)
+            callback(undefined, {
+                temperature: body.currently.temperature,
+                apparentTemperature: body.currently.apparentTemperature
+            })
         } else {
             callback('Something wrong happended.')
         }

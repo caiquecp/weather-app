@@ -24,10 +24,11 @@ function getGeocodeAddress(address, callback) {
             body.results.length > 0 && 
             body.results[0].locations && 
             body.results[0].locations.length > 0) {
+            const firstLocation = body.results[0].locations[0]
             callback(undefined, {
-                address: body.results[0].locations[0].street,
-                latitude: body.results[0].locations[0].latLng.lat,
-                longitude: body.results[0].locations[0].latLng.lng
+                address: `${firstLocation.street}, ${firstLocation.adminArea5}`,
+                latitude: firstLocation.latLng.lat,
+                longitude: firstLocation.latLng.lng
             })
         } else {
             callback('Address not found')
