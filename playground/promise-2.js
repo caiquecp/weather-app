@@ -3,13 +3,12 @@
 const keys = require('../keys.js')
 const request = require('request')
 
-const api = 'http://www.mapquestapi.com/geocoding/v1'
-
 var geocodeAddress = function (address) {
     const encodedAddress = encodeURIComponent(address)
     
     const requestSetup = {
-        url: `${api}/address?` + 
+        url: `http://www.mapquestapi.com/geocoding/v1/` +
+            `address?` +
             `key=${keys.MAPQUEST_KEY}` +
             `&location=${encodedAddress}` + 
             `&maxResults=1`,
@@ -40,11 +39,3 @@ var geocodeAddress = function (address) {
         })
     })
 }
-
-geocodeAddress('Rua Soror Angelica, BRAZIL')
-    .then(function (val) {
-        console.log(JSON.stringify(val, undefined, 2))
-    })
-    .catch(function (reason) {
-        console.error(reason)
-    })

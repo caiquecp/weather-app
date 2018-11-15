@@ -17,16 +17,22 @@ const argv = yargs
     .alias('help', 'h')
     .argv;
 
-geocode.getGeocodeAddress(argv.address, function (error, geocodeResult) {
-    if (error)
-        throw error
+function logWeather(geocodeResult, weatherResult) {
+    console.log('Weather right now:')
+    console.log(` ${weatherResult.temperature.toFixed(0)} degrees celsius`)
+    console.log('Location:')
+    console.log(` ${geocodeResult.address} (${geocodeResult.latitude}, ${geocodeResult.longitude})`)
+}
 
-    weather.getWeather(geocodeResult.latitude, geocodeResult.longitude, 
-        function (error, weatherResult) {
-            if (error)
-                throw error
-
-            console.log(`Weather for ${geocodeResult.address} right now: ` +
-                `${weatherResult.temperature.toFixed(0)}C`)
+var geocodeAddress = geocode.getGeocodeAddress(argv.address)
+var currentWeather = geocodeAddress
+    .then(function (geocodeResult) {
+        return weather.getCurrentWeather(geocodeResult.latitude, geocodeResult.longitude)
     })
-})
+
+Promise.all([geocodeAddress, currentWeather])
+    .then(function ([geocodeResult, weatherResult]) {
+        logWeather(geocodeResult, weatherResult)
+    }).catch(function (reason) {
+        console.log(reason)
+    })
